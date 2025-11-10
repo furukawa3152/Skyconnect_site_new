@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="院内完結型ローカルAIソリューション - セキュアな生成AIサーバーで医療現場を革新">
+    <title>院内完結型ローカルAIソリューション | Sky-Connect</title>
+    <style>
+        /* ===== リセット & ベース ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4682B4;
+            --secondary-color: #5A9FD4;
+            --accent-color: #87CEEB;
+            --sky-blue-light: #B0E0E6;
+            --sky-blue-dark: #4A90E2;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            overflow-x: hidden;
+        }
+
+        /* ===== ヘッダー ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        /* ===== ヒーローセクション ===== */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            position: relative;
+            overflow: hidden;
+            padding-top: 100px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        .hero .subtitle {
+            font-size: clamp(1.1rem, 2vw, 1.3rem);
+            margin-bottom: 1rem;
+            opacity: 0.95;
+            animation: fadeInUp 1s ease 0.2s both;
+        }
+
+        .hero .sub-copy {
+            font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease 0.4s both;
+        }
+
+        /* ===== セクション共通 ===== */
+        section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-light);
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+        }
+
+        /* ===== 課題リスト ===== */
+        .challenges {
+            background: var(--bg-light);
+        }
+
+        .challenge-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .challenge-item {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: var(--shadow-sm);
+            border-left: 4px solid var(--primary-color);
+            transition: all 0.3s ease;
+        }
+
+        .challenge-item:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        /* ===== メリットセクション ===== */
+        .benefits {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        .benefits .section-title,
+        .benefits .section-subtitle {
+            color: white;
+        }
+
+        .benefit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .benefit-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .benefit-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .benefit-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .benefit-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .benefit-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* ===== 活用事例 ===== */
+        .use-cases {
+            background: var(--bg-light);
+        }
+
+        .use-case-table {
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-top: 2rem;
+        }
+
+        .use-case-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .use-case-table th,
+        .use-case-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--bg-light);
+        }
+
+        .use-case-table th {
+            background: var(--primary-color);
+            color: white;
+            font-weight: 600;
+        }
+
+        .use-case-table tr:hover {
+            background: var(--bg-light);
+        }
+
+        /* ===== 仕様セクション ===== */
+        .specs {
+            background: white;
+        }
+
+        .spec-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .spec-card {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .spec-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        /* ===== プランセクション ===== */
+        .plans {
+            background: var(--bg-light);
+        }
+
+        .plan-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .plan-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s ease;
+        }
+
+        .plan-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-xl);
+        }
+
+        .plan-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .plan-card ul {
+            list-style: none;
+            padding-left: 0;
+            margin-top: 1rem;
+        }
+
+        .plan-card li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .plan-card li::before {
+            content: '・';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-weight: bold;
+        }
+
+        /* ===== お問い合わせ ===== */
+        .contact {
+            background: var(--text-dark);
+            color: white;
+        }
+
+        .contact .section-title,
+        .contact .section-subtitle {
+            color: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .contact-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-card a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-card a:hover {
+            color: var(--accent-color);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* ===== フッター ===== */
+        footer {
+            background: #111827;
+            color: white;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        /* ===== アニメーション ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== レスポンシブ ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+
+            section {
+                padding: 3rem 1rem;
+            }
+
+            .use-case-table {
+                overflow-x: auto;
+            }
+
+            .use-case-table table {
+                min-width: 600px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header id="header">
+        <nav>
+            <a href="sky-connect-renewal.html" class="logo">Sky-Connect</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="sky-connect-renewal.html#top">TOP</a></li>
+                <li><a href="sky-connect-renewal.html#concept">CONCEPT</a></li>
+                <li><a href="sky-connect-renewal.html#annyys">ANNYYS</a></li>
+                <li><a href="sky-connect-renewal.html#news">NEWS</a></li>
+                <li><a href="sky-connect-renewal.html#contact">CONTACT</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>その医療データ、外部AIに送信できますか？</h1>
+            <p class="subtitle">院内FileMakerから、安全・手軽に呼び出せるローカル生成AIサーバー、誕生。</p>
+            <p class="sub-copy">情報セキュリティの壁を越え、日々の業務を劇的に効率化。既存のFileMaker環境を活かし、低コストな買い切り型で始める院内DXの決定版です。</p>
+        </div>
+    </section>
+
+    <!-- 解決できる課題 -->
+    <section class="challenges">
+        <h2 class="section-title">解決できる課題</h2>
+        <div class="challenge-list">
+            <div class="challenge-item fade-in">
+                <p>ChatGPTを使いたいが、患者情報の漏洩リスクが怖くて許可できない。</p>
+            </div>
+            <div class="challenge-item fade-in">
+                <p>サマリー作成や書類要約など、定型的な文章作成業務に時間がかかっている。</p>
+            </div>
+            <div class="challenge-item fade-in">
+                <p>高額なAIシステムや月額利用料は、コスト的に導入が難しい。</p>
+            </div>
+            <div class="challenge-item fade-in">
+                <p>IT専門のエンジニアがいなくても、現場で使えるAIツールが欲しい。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ソリューション概要 -->
+    <section class="benefits">
+        <h2 class="section-title">「院内完結型 ローカルAIソリューション」のご案内</h2>
+        <p class="section-subtitle">当ソリューションは、院内の閉域ネットワーク内で完結する、セキュアな生成AIサーバーです。使い慣れたFileMakerから簡単なスクリプトで呼び出すだけで、文章の要約、データ整理、コード判定など、様々な業務を自動化・効率化します。</p>
+        
+        <h3 class="section-title" style="font-size: 2rem; margin-top: 3rem;">３つのコア・メリット</h3>
+        
+        <div class="benefit-grid">
+            <div class="benefit-card fade-in">
+                <h3>1. 絶対的な情報セキュリティ</h3>
+                <ul>
+                    <li>院内ネットワークで完結： 患者情報や機密性の高いデータが一切外部に出ません。</li>
+                    <li>クラウド不要： インターネット接続が不要なため、外部からの不正アクセスのリスクを遮断します。</li>
+                    <li>オンプレミス運用： すべての処理が院内のサーバー上で行われるため、データを完全にコントロールできます。</li>
+                </ul>
+            </div>
+            <div class="benefit-card fade-in">
+                <h3>2. 低コストかつシンプルな導入</h3>
+                <ul>
+                    <li>買い切りモデルで経済的： 必要な初期費用はサーバー用ハードウェアと設定費用のみ。高額な月額ライセンス料はかかりません。</li>
+                    <li>オープンソースAI活用： Google社の高性能AIモデル「Gemma3」などを利用。モデル自体の利用料は無料です。</li>
+                    <li>FileMakerと簡単連携： 既存のFileMakerに数行のスクリプトを追加するだけでAI機能を呼び出せます。専門知識がなくてもすぐに活用を開始できます。</li>
+                </ul>
+            </div>
+            <div class="benefit-card fade-in">
+                <h3>3. 現場ですぐに使える多彩な活用事例</h3>
+                <ul>
+                    <li>退院時サマリーの自動生成： 入院記録から要点を抽出し、サマリー作成時間を大幅に短縮。</li>
+                    <li>週間サマリーの作成： 日々の看護記録を要約し、患者の状態把握と情報共有を効率化。</li>
+                    <li>院内用チャットアプリ： 問い合わせメールの文案作成や、定型的な案内文の作成などをAIがサポート。</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- 導入プラン -->
+    <section class="plans">
+        <h2 class="section-title">導入プランのご案内</h2>
+        <p class="section-subtitle">貴院の状況に合わせ、最適なプランをご提案します。</p>
+        <div class="plan-grid">
+            <div class="plan-card fade-in">
+                <h3>１．初期導入プラン（買い切り型）</h3>
+                <p>サーバーの構築からFileMakerとの連携まで、AI活用に必要な環境をまとめてご提供します。</p>
+                <p style="margin-top: 1rem; font-weight: 600;">含まれる内容：</p>
+                <ul>
+                    <li>推奨ハードウェア（Mac mini）の選定・調達支援</li>
+                    <li>ローカルAIサーバーの構築・初期設定</li>
+                    <li>FileMaker連携用サンプルスクリプトのご提供</li>
+                    <li>基本的な操作レクチャー</li>
+                </ul>
+            </div>
+            <div class="plan-card fade-in">
+                <h3>２．月額保守・運用サポートプラン</h3>
+                <p>導入後の安定稼働と活用促進を継続的にサポートします。</p>
+                <p style="margin-top: 1rem; font-weight: 600;">含まれる内容：</p>
+                <ul>
+                    <li>運用に関するQ&Aサポート</li>
+                    <li>軽微なプロンプト（AIへの命令文）のチューニング</li>
+                    <li>ご要望に応じたFileMakerレイアウトのカスタマイズ支援</li>
+                    <li>システム稼働状況の定期モニタリング</li>
+                </ul>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 2rem; color: var(--text-light);">
+            費用については、貴院の環境やご要望をお伺いした上で、個別にお見積りいたします。
+        </p>
+    </section>
+
+    <!-- お問い合わせ -->
+    <section class="contact">
+        <h2 class="section-title">お問い合わせ</h2>
+        <p class="section-subtitle">「AIの民主化」を、すべての医療現場へ。<br>本ソリューションは、実際の医療現場の課題解決から生まれた、実践的なシステムです。</p>
+        <div class="contact-grid">
+            <div class="contact-card fade-in">
+                <h3>Hideto Yamaguchi</h3>
+                <p>
+                    <a href="mailto:skyconnect.corp@gmail.com">skyconnect.corp@gmail.com</a>
+                </p>
+            </div>
+            <div class="contact-card fade-in">
+                <h3>Keiko Sanematsu</h3>
+                <p>
+                    <a href="mailto:skinen1270@gmail.com">skinen1270@gmail.com</a>
+                </p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="sky-connect-renewal.html" class="back-link">トップページに戻る</a>
+        </div>
+    </section>
+
+    <!-- フッター -->
+    <footer>
+        <p>&copy; 2025 Sky-Connect. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // ===== ヘッダーのスクロール効果 =====
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ===== モバイルメニュー =====
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // メニューリンククリック時にメニューを閉じる
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+
+        // ===== スクロールアニメーション =====
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
+
