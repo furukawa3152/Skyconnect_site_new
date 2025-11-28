@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Sky-Connect プライバシーポリシー">
+    <title>プライバシーポリシー | Sky-Connect</title>
+    <style>
+        /* ===== リセット & ベース ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #4682B4;
+            --secondary-color: #5A9FD4;
+            --accent-color: #87CEEB;
+            --sky-blue-light: #B0E0E6;
+            --sky-blue-dark: #4A90E2;
+            --text-dark: #1f2937;
+            --text-light: #6b7280;
+            --bg-light: #f9fafb;
+            --bg-white: #ffffff;
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            line-height: 1.7;
+            color: var(--text-dark);
+            background-color: var(--bg-white);
+            overflow-x: hidden;
+        }
+
+        /* ===== ヘッダー ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-sm);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        header.scrolled {
+            box-shadow: var(--shadow-md);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-dark);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary-color);
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        /* ===== ヒーローセクション ===== */
+        .hero {
+            min-height: 40vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(rgba(70, 130, 180, 0.7), rgba(90, 159, 212, 0.7)), url('aozora_3..jpg') center/cover no-repeat;
+            position: relative;
+            overflow: hidden;
+            padding-top: 100px;
+            margin-bottom: 3rem;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+            text-align: center;
+            color: white;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+            animation: fadeInUp 1s ease;
+        }
+
+        /* ===== コンテンツセクション ===== */
+        .content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .content-section {
+            background: var(--bg-white);
+            margin-bottom: 3rem;
+            padding: 2.5rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow-md);
+        }
+
+        .content-section h2 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 3px solid var(--accent-color);
+        }
+
+        .content-section h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .content-section p {
+            margin-bottom: 1rem;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        .content-section ul {
+            list-style: none;
+            padding-left: 0;
+            margin: 1rem 0;
+        }
+
+        .content-section li {
+            padding: 0.5rem 0 0.5rem 1.5rem;
+            position: relative;
+            line-height: 1.8;
+        }
+
+        .content-section li::before {
+            content: '●';
+            position: absolute;
+            left: 0;
+            color: var(--primary-color);
+            font-size: 0.8rem;
+        }
+
+        .intro-text {
+            background: linear-gradient(135deg, rgba(70, 130, 180, 0.1) 0%, rgba(90, 159, 212, 0.1) 100%);
+            padding: 2.5rem;
+            border-radius: 15px;
+            margin-bottom: 3rem;
+            border: 2px solid rgba(70, 130, 180, 0.2);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .intro-text p {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.9;
+            margin: 0;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            background: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* ===== フッター ===== */
+        footer {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            color: var(--text-dark);
+            text-align: center;
+            padding: 2rem;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        footer a {
+            color: var(--primary-color);
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        footer a:hover {
+            opacity: 0.7;
+        }
+
+        /* ===== アニメーション ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ===== レスポンシブ ===== */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                background: white;
+                flex-direction: column;
+                padding: 2rem;
+                box-shadow: var(--shadow-lg);
+                transition: left 0.3s ease;
+            }
+
+            .nav-links.active {
+                left: 0;
+            }
+
+            .menu-toggle {
+                display: flex;
+            }
+
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(8px, 8px);
+            }
+
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -7px);
+            }
+
+            .content {
+                padding: 2rem 1rem;
+            }
+
+            .content-section {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ヘッダー -->
+    <header id="header">
+        <nav>
+            <a href="index.html" class="logo">Sky-Connect</a>
+            <ul class="nav-links" id="navLinks">
+                <li><a href="index.html#top">TOP</a></li>
+                <li><a href="index.html#concept">CONCEPT</a></li>
+                <li><a href="index.html#annyys">ANNYYS</a></li>
+                <li><a href="index.html#news">NEWS</a></li>
+                <li><a href="index.html#contact">CONTACT</a></li>
+            </ul>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+    </header>
+
+    <!-- ヒーローセクション -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>PRIVACY POLICY</h1>
+        </div>
+    </section>
+
+    <!-- コンテンツ -->
+    <div class="content">
+        <div class="intro-text">
+            <p>Sky-Connect（以下当社）では、個人情報に関する法令およびその他の規範を遵守し、お客様の大切な個人情報の保護に万全を尽くします。</p>
+        </div>
+
+        <div class="content-section">
+            <h2>個人情報の収集について</h2>
+            <p>当社では、次のような場合に必要な範囲で個人情報を収集することがあります。</p>
+            <ul>
+                <li>当社へのお問い合わせ時</li>
+                <li>当社へのサービスお申し込み時</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>個人情報の利用目的について</h2>
+            <p>当社は、お客様から収集した個人情報を次の目的で利用いたします。</p>
+            <ul>
+                <li>お客様への連絡のため</li>
+                <li>お客様からのお問い合せに対する回答のため</li>
+                <li>お客様へのサービス提供のため</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>個人情報の第三者への提供について</h2>
+            <p>当社では、お客様より取得した個人情報を第三者に開示または提供することはありません。</p>
+            <p>ただし、次の場合は除きます。</p>
+            <ul>
+                <li>ご本人の同意がある場合</li>
+                <li>警察からの要請など、官公署からの要請の場合</li>
+                <li>法律の適用を受ける場合</li>
+            </ul>
+        </div>
+
+        <div class="content-section">
+            <h2>個人情報の開示、訂正等について</h2>
+            <p>当社は、お客様ご本人からの自己情報の開示、訂正、削除等のお求めがあった場合は、確実に応じます。</p>
+        </div>
+
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="index.html" class="back-link">トップページに戻る</a>
+        </div>
+    </div>
+
+    <!-- フッター -->
+    <footer>
+        <p>&copy; 2025 Sky-Connect. All Rights Reserved.</p>
+        <p style="margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.8;">
+            <a href="privacy-policy.html">プライバシーポリシー</a>
+        </p>
+    </footer>
+
+    <script>
+        // ===== ヘッダーのスクロール効果 =====
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ===== モバイルメニュー =====
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+
+        menuToggle.addEventListener('click', () => {
+            menuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        // メニューリンククリック時にメニューを閉じる
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                menuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
+
